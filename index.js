@@ -16,7 +16,7 @@ let userIDs = [];
 
 app.intent("QuestionTemperature", conv => {
     conv.ask("The temperature is " + currentTemperature.value + " degrees Celcius");
-    console.info("Asked for temperature");
+    console.log("Asked for temperature");
 });
 
 app.intent("SetTemperature", (conv, params) => {
@@ -24,7 +24,7 @@ app.intent("SetTemperature", (conv, params) => {
     let num = Number.parseInt(params['temp']);
     maxTemperature.value = num;
     conv.ask("The max temperature has been changed to " + num + " degrees Celcius");
-    console.info("The max temperature has been changed to " + num);
+    console.log("The max temperature has been changed to " + num);
 });
 
 app.intent("SendNotifs", conv => {
@@ -99,6 +99,7 @@ function sendNotif(){
                     'isInSandbox': true,
                 },
             };
+            //request.get('https://actions.googleapis.com/v2/conversations:batchGet');
             request.post('https://actions.googleapis.com/v2/conversations:send',authObj , (err, httpResponse, body) => {
                 if (err) {
                     throw new Error(`API request error: ${err}`);
@@ -106,16 +107,17 @@ function sendNotif(){
                 console.log(`${httpResponse.statusCode}: ` + `${httpResponse.statusMessage}`);
                 console.log(JSON.stringify(body));
             })
-            console.info("Send alert");
+            console.log("Send alert");
         });
     })
 
 }
 
 setInterval(function() {
+    currentTemperature.value = getRandomInt(80) - 40;
+    console.log("Changet temp to " + currentTemperature.value);
+    console.log("userIDs: " + userIDs);
     if (currentTemperature.value > maxTemperature.value){
-        currentTemperature.value = getRandomInt(80) - 40;
          sendNotif();
-         console.log("userIDs: " + userIDs);
     }
-}, 30*1000);
+}, 10*1000);
