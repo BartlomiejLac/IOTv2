@@ -15,7 +15,6 @@ let maxTemperature = {
 let userIDs = [];
 
 app.intent("QuestionTemperature", conv => {
-    //let num = getRandomInt(80) - 40;
     conv.ask("The temperature is " + currentTemperature.value + " degrees Celcius");
     console.info("Asked for temperature");
 });
@@ -23,9 +22,9 @@ app.intent("QuestionTemperature", conv => {
 app.intent("SetTemperature", (conv, params) => {
     
     let num = Number.parseInt(params['temp']);
-    currentTemperature.value = num;
-    conv.ask("The temperature has been changed to " + num + " degrees Celcius");
-    console.info("The temperature has been changed to " + num);
+    maxTemperature.value = num;
+    conv.ask("The max temperature has been changed to " + num + " degrees Celcius");
+    console.info("The max temperature has been changed to " + num);
 });
 
 app.intent("SendNotifs", conv => {
@@ -115,6 +114,7 @@ function sendNotif(){
 
 setInterval(function() {
     if (currentTemperature.value > maxTemperature.value){
+        currentTemperature.value = getRandomInt(80) - 40;
          sendNotif();
          console.log("userIDs: " + userIDs);
     }
