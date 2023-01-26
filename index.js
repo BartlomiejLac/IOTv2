@@ -17,16 +17,19 @@ let userIDs = [];
 app.intent("QuestionTemperature", conv => {
     //let num = getRandomInt(80) - 40;
     conv.ask("The temperature is " + currentTemperature.value + " degrees Celcius");
+    console.info("Asked for temperature");
 });
 
 app.intent("SetTemperature", (conv, params) => {
+    
     let num = Number.parseInt(params['temp']);
     currentTemperature.value = num;
     conv.ask("The temperature has been changed to " + num + " degrees Celcius");
+    console.info("The temperature has been changed to " + num);
 });
 
 app.intent("SendNotifs", conv => {
-    console.log("Asked for notifs");
+    console.info("Asked for notifs");
     conv.ask(new UpdatePermission({
         intent: 'GetState'
     }));
@@ -87,7 +90,7 @@ function sendNotif(){
                 'body': {
                     'customPushMessage': {
                         userNotification: {
-                            title: 'temperatureNotif',
+                            title: "Alert! The temperature is " + currentTemperature.value + "!",
                         },
                         target : {
                             userId: uid,
@@ -104,12 +107,15 @@ function sendNotif(){
                 console.log(`${httpResponse.statusCode}: ` + `${httpResponse.statusMessage}`);
                 console.log(JSON.stringify(body));
             })
+            console.info("Send alert");
         });
     })
 
 }
 
 setInterval(function() {
-    console.log(userIDs);
-    if (currentTemperature.value > maxTemperature.value) sendNotif();
-}, 10*1000);
+    if (currentTemperature.value > maxTemperature.value){
+         sendNotif();
+         console.log("userIDs: " + userIDs);
+    }
+}, 20*1000);
