@@ -42,7 +42,7 @@ app.intent("ConfirmNotifs", (conv) => {
         if (!userIDs.includes(userID)){
             userIDs.push(userID);
         }
-        conv.close("Ok, you are subscribed");
+        conv.ask("Ok, you are subscribed");
     }
     else {
         conv.close("Ok, you are not subscribed")
