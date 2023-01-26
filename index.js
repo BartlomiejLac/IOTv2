@@ -113,9 +113,10 @@ function sendNotif(){
 }
 
 setInterval(function() {
+    currentTemperature.value = getRandomInt(30) - 10;
+    console.log("currentTemperature: " + currentTemperature.value);
     if (currentTemperature.value > maxTemperature.value){
-        currentTemperature.value = getRandomInt(80) - 40;
          sendNotif();
          console.log("userIDs: " + userIDs);
     }
-}, 30*1000);
+}, 15*1000);
