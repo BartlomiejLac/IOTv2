@@ -118,4 +118,4 @@ setInterval(function() {
          sendNotif();
          console.log("userIDs: " + userIDs);
     }
-}, 20*1000);
+}, 30*1000);
